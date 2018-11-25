@@ -19,36 +19,6 @@ def checkuser(name):
 def control(msg):
     return True
 
-# def data_transfer_pasv(pc_s, pd_s, cc_s, cd_s):
-#     while True:
-#         msg = cc_s.recv(4096)
-#
-#         if len(msg) == 0:
-#             return
-#
-#         if not control(msg):
-#             continue
-#
-#         pc_s.send(msg)
-#         msg = pc_s.recv(4096)
-#         cc_s.send(msg)
-#
-#         while True:
-#             rset, wset, error = select.select([pd_s, cd_s], [], [])
-#             if pd_s in rset:
-#                 msg = pd_s.recv(4096)
-#                 if len(msg) == 0:
-#                     break
-#
-#                 cd_s.send(msg)
-#
-#             if cd_s in rset:
-#                 msg = cd_s.recv(4096)
-#                 if len(msg) == 0:
-#                     break
-#
-#                 pd_s.send(msg)
-
 def deal_with_connect(pc_s, cc_s):
     while True:
         rset, wset, error = select.select([pc_s, cc_s], [], [])
@@ -59,33 +29,6 @@ def deal_with_connect(pc_s, cc_s):
 
             print(msg)
             cc_s.send(msg)
-
-            # if msg.find(b"227") != -1:
-                # info = re.findall(r'\d+', msg.decode())
-                # serv_dataport = int(info[5])*256 + int(info[6])
-                # serv_addr = '%d.%d.%d.%d' % (int(info[1]), int(info[2]), int(info[3]), int(info[4]))
-                #
-                # new_msg = "227 Entering Passive Mode (192,168,0,103,211,175).\r\n"
-                # print(new_msg.encode())
-                # cc_s.send(new_msg.encode())
-                #
-                # ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                # ds.bind(('0.0.0.0', 54191))
-                # ds.listen(10)
-                #
-                # print("start listening")
-                #
-                # cd_s, addr = ds.accept()
-                #
-                # print("successfully connect client data")
-                #
-                # pd_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                # pd_s.connect((serv_addr, serv_dataport))
-                #
-                # print("successfully connect server data")
-                #
-                # data_transfer_pasv(pc_s, pd_s, cc_s, cd_s)
-                # continue
 
         if cc_s in rset:
             msg = cc_s.recv(4096)
