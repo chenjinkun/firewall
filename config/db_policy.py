@@ -15,7 +15,7 @@ def add_user(name,pri_upload=0,pri_download=0,pri_delete=0,pri_mkdir=0,size=0):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 
 
 	flag = (pri_upload !=0 and pri_upload !=1) or (pri_download !=0 and pri_download !=1) or (pri_delete !=0 and pri_delete !=1) or (pri_mkdir !=0 and pri_mkdir !=1) or (size<0)
@@ -34,28 +34,28 @@ def update_user(name,upload,download,delet,mkdir,file_size):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	if upload !=0 and upload !=1:
 		print('update failed,please set upload to 1 or 0')
-		return 
+		return
 	else :
 		cursor.execute("update user set upload =?  where username=?",(upload,name))
 	if download !=0 and download !=1:
 		print('update failed,please set download to 1 or 0')
-		return 
+		return
 	else :
 		cursor.execute("update user set download =?  where username=?",(download,name))
 	if delet !=0 and delet !=1:
 		print('update failed,please set delet to 1 or 0')
-		return 
+		return
 	else :
 		cursor.execute("update user set delet =?  where username=?",(delet,name))
 	if mkdir !=0 and mkdir !=1:
 		print('update failed,please set mkdir to 1 or 0')
-		return 
+		return
 	else :
 		cursor.execute("update user set mkdir =?  where username=?",(mkdir,name))
 	if file_size<0 :
@@ -70,7 +70,7 @@ def delete_user(name):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	cursor.execute("delete from user where username=?",(name,))
@@ -82,7 +82,7 @@ def check_pri(name,pri):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	cursor.execute("select * from user where username=?",(name,))
@@ -104,7 +104,7 @@ def add_file_type(name,jpg=0,txt=0,avi=0):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 	flag = (jpg !=0 and jpg !=1) or (txt !=0 and txt !=1) or (avi !=0 and avi !=1)
 	if flag:
 		print('add file_type failed, you put invalid data')
@@ -121,23 +121,23 @@ def update_file_type(name,jpg,txt,avi):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	if jpg !=0 and jpg !=1:
 		print('dateup failed,please set jpg to 1 or 0')
-		return 
+		return
 	else :
 		cursor.execute("update file_type set jpg =?  where username=?",(jpg,name))
 	if txt !=0 and txt !=1:
 		print('update failed,please set txt to 1 or 0')
-		return 
+		return
 	else :
 		cursor.execute("update file_type set txt =?  where username=?",(txt,name))
 	if avi !=0 and avi !=1:
 		print('update failed,please set avi to 1 or 0')
-		return 
+		return
 	else :
 		cursor.execute("update file_type set avi =?  where username=?",(avi,name))
 	cursor.close()
@@ -149,7 +149,7 @@ def delete_file_type(name):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	cursor.execute("delete from file_type where username=?",(name,))
@@ -161,7 +161,7 @@ def check_type(name,file_type):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	cursor.execute("select * from file_type where username=?",(name,))
@@ -182,7 +182,7 @@ def add_sourceip(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
@@ -195,7 +195,7 @@ def add_targetip(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
@@ -208,7 +208,7 @@ def delete_sourceip(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
@@ -221,7 +221,7 @@ def delete_targetip(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
@@ -234,7 +234,7 @@ def check_sourceip(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return False
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	cursor.execute("select id from ip_check where sourceip=?",(ip,))
@@ -251,7 +251,7 @@ def check_targetip(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
-		return 
+		return False
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	cursor.execute("select id from ip_check where targetip=?",(ip,))
@@ -345,35 +345,3 @@ if __name__=='__main__':
 	print(check_sourceip('192.168.0.5'))
 	print(check_sourceip('192.168.0.1'))
 	show_table('ip_check')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

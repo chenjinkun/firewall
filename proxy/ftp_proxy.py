@@ -3,15 +3,10 @@ import select
 import threading
 import re
 import struct
+from db_policy import check_sourceip, check_targetip
 
 MAX_LISTEN = 10
 SO_ORIGINAL_DST = 80
-
-def checkclient(addr):
-    return True
-
-def checkserver(addr):
-    return True
 
 def checkuser(name):
     return True
@@ -44,7 +39,8 @@ def proxy_func(cc_s):
     (proto, port, a,b,c,d) = struct.unpack('!HHBBBB', server_addr_in[:8])
     server_ip = '%d.%d.%d.%d' % (a,b,c,d)
 
-    if not checkserver(server_ip):
+    if not check_targetip(server_ip):
+        print "this server {} is forbidden by the rule".format(server_ip)
         cc_s.close()
         return
 
@@ -64,11 +60,12 @@ def start_proxy(lsport):
 
     while True:
         sock, addr = s.accept()
-        print("find client", addr)
-        if checkclient(addr):
+        print "find client", addr
+        if check_sourceip(addr[0]):
             t = threading.Thread(target=proxy_func, args=(sock,))
             t.start()
         else:
+            print("this client is forbidden by the rule")
             sock.close()
             continue
 
