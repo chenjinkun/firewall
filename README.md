@@ -12,7 +12,6 @@ python 2.7
 sqlite3
 
 
-
 #### 开发注意事项
 
 1. Develop分支为当前最新分支，master分支为当前可提交的最新分支。所有的开发均以Develop分支为起点新建分支进行，完成一定功能后，提交pull request到Develop分支，由 @chenjinkun 进行merge。每开发出一版可提交给老师的版本，由@chenjinkun 将Develop分支merge到master分支。**切记不要直接push到master或Develop分支。**
@@ -33,6 +32,17 @@ sqlite3
 ##### config模块
 
 主要实现防火墙规则的配置，防火墙规则的数据库存储，以及用户界面设计。模块中包含的代码及其功能分别为：
+数据库表创建模块
+数据库表操作模块：
+1.user表相关操作: 
+	def add_user()  def update_user()  def delete_user()  
+	def check_pri(username, pri)  pri 可以是'upload' ,'download','delet','mkdir','file_size', 函数正常返回0或1.
+2.file_type表相关操作： 
+	def add_file_type(),def update_file_type(),def delete_file_type(),
+	def check_type(username,file_type) file_type 可以是 'jpg','txt','avi'。函数正常返回0或1.
+3.ip_check表相关操作： 
+	def add_sourceip() def add_targetip() def delete_sourceip() def delete_targetip() 
+	def check_sourceip(ip) def check_targetip(ip) 函数正常返回0或1.
 
 +
 
