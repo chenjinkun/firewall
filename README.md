@@ -34,12 +34,12 @@ sqlite3
 主要实现防火墙规则的配置，防火墙规则的数据库存储，以及用户界面设计。模块中包含的代码及其功能分别为：
 数据库表创建模块
 数据库表操作模块：
-1.user表相关操作: 
-	def add_user()  def update_user()  def delete_user()  
-	def check_pri(username, pri)  pri 可以是'upload' ,'download','delet','mkdir','file_size', 函数正常返回0或1.
+1.ip_pri表相关操作: 
+	def add_ip_pri()  def update_ip_pri()  def delete_ip_pri()  
+	def check_pri(ip, pri)  pri 可以是'upload' ,'download','delet','mkdir','file_size', 函数正常返回0或1.
 2.file_type表相关操作： 
 	def add_file_type(),def update_file_type(),def delete_file_type(),
-	def check_type(username,file_type) file_type 可以是 'jpg','txt','avi'。函数正常返回0或1.
+	def check_type(file_type,pri) file_type 可以是 'jpg','txt','avi',pri可以是 upload,download. 函数正常返回0或1.
 3.ip_check表相关操作： 
 	def add_sourceip() def add_targetip() def delete_sourceip() def delete_targetip() 
 	def check_sourceip(ip) def check_targetip(ip) 函数正常返回0或1.
