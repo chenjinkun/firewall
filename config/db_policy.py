@@ -22,7 +22,7 @@ def add_ip_pri(ip,upload=0,download=0,delet=0,mkdir=0,file_size=0):
 	flag = (upload !=0 and upload !=1) or (download !=0 and download !=1) or (delet !=0 and delet !=1) or (mkdir !=0 and mkdir !=1) or (file_size<0)
 	if flag:
 		print('add user failed, you put invalid data')
-		return 
+		return
 	else :
 		conn = sqlite3.connect(db_file)
 		cursor = conn.cursor()
@@ -107,7 +107,7 @@ def add_file_type(file_type,upload=0,download=0):
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
 		return
-	flag = (upload !=0 and upload !=1) or (download !=0 and download !=1) 
+	flag = (upload !=0 and upload !=1) or (download !=0 and download !=1)
 	if flag:
 		print('add file_type failed, you put invalid data')
 		return
@@ -172,6 +172,27 @@ def check_type(file_type, pri):
 		return -1
 	else :
 		return values[0][file_pri_index[pri]]
+
+def filetype_blacklist(pri=None):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return -1
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	if pri == 'download':
+		cursor.execute("select FILE_TYPE from file_type where DOWNLOAD='0'")
+	elif pri == 'upload':
+		cursor.execute("select FILE_TYPE from file_type where UPLOAD='0'")
+	else:
+		return ()
+
+	values = cursor.fetchall()
+	cursor.close()
+	conn.commit()
+	conn.close()
+	return values[0]
+
 ############################  optinons on table file_type    ###############################
 
 
