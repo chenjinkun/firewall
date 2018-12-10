@@ -12,11 +12,11 @@ def init():
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file):
 		print('db exists')
-		return 
+		return
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	
+
 	cursor.execute('create table file_type (FILE_TYPE varchar(20) primary key, UPLOAD boolean not null, DOWNLOAD boolean not null)')
 	cursor.execute('create table ip_pri (IP varchar(15) primary key, UPLOAD boolean, DOWNLOAD boolean, DELET boolean, MKDIR boolean, FILE_SIZE INTEGER)')
 	cursor.execute('create table ip_check (ID integer primary key autoincrement, SOURCEIP blob, TARGETIP blob)')
