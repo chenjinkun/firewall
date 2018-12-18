@@ -64,13 +64,10 @@ def main():
 				update_ip_pri(values[0],values[1],values[2],values[3],values[4],values[5])
 			if tablename=='file_type':
 				update_file_type(values[0],int(values[1]),int(values[2]))
-			if tablename=='ip_check':
-				print('a')
-				print(cn)
-				if cn==2:
-					update_SOURCEIP(int(values[0]),values[1])
-				if cn==3:
-					update_TARGETIP(int(values[0]),values[2])
+			if tablename=='check_sourceip':
+				update_SOURCEIP(int(values[0]),values[1])
+			if tablename=='check_targetip':
+				update_TARGETIP(int(values[0]),values[1])
 
 		okb = ttk.Button(dataframe,text='set',command=saveedit)
 		okb.place(x=120+(cn-1)*200,y=rn*20)
@@ -100,10 +97,12 @@ def main():
 		if tablename=='file_type':
 			tree2.insert('','end',values=['zero',0,0])
 			add_file_type('zero',0,0)
-		if tablename=='ip_check':
-			tree2.insert('','end',values=['-1','0','0'])
-			add_SOURCEIP('none')
-
+		if tablename=='check_sourceip':
+			tree2.insert('','end',values=['-1','0'])
+			add_SOURCEIP('0')
+		if tablename=='check_targetip':
+			tree2.insert('','end',values=['-1','0'])
+			add_TARGETIP('0')
 		tree2.update()
 
 	def lstables():
