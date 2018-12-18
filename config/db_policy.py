@@ -129,7 +129,7 @@ def update_file_type(file_type,upload,download):
 	cursor = conn.cursor()
 
 	if upload !=0 and upload !=1:
-		print('dateup failed,please set upload to 1 or 0')
+		print('update failed,please set upload to 1 or 0')
 		return
 	else :
 		cursor.execute("update file_type set UPLOAD =?  where FILE_TYPE=?",(upload,file_type))
@@ -283,6 +283,45 @@ def check_TARGETIP(ip):
 		return 0
 	else :
 		return 1
+
+def update_TARGETIP(ID,ip):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("update ip_check set TARGETIP =?  where ID=?",(ip,ID))
+	cursor.close()
+	conn.commit()
+	conn.close()
+
+def update_SOURCEIP(ID,ip):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("update ip_check set SOURCEIP =?  where ID=?",(ip,ID))
+	cursor.close()
+	conn.commit()
+	conn.close()
+
+def delete_ip_check(ID):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("delete from ip_check where ID=?",(ID,))
+	cursor.close()
+	conn.commit()
+	conn.close()
+
 ############################ operations  on table ip_check    #################################
 
 def show_table(table_name):
@@ -347,7 +386,7 @@ if __name__=='__main__':
 	delete_file_type('txt')
 	show_table('file_type')
 
-########test on table check_ip ##############
+########test on table ip_check ##############
 
 	add_SOURCEIP('192.168.0.1')
 	add_TARGETIP('192.168.0.2')
