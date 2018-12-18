@@ -6,11 +6,50 @@ import tkMessageBox
 from Tkinter import *
 import os,sqlite3,time
 def main():
-	def __showtable(event):
-		x=tree2.get_children()
-		for item in x:
-			tree2.delete(item)
+	def set_value(event):
+		print("set value success")
+		for item1 in tree1.selection():
+				tablename = tree1.item(item1,'text')
 
+		for item2 in tablesdic[tablename].selection():
+			item_text = tablesdic[tablename].item(item2, "values")
+			print(item_text)
+		column = tablesdic[tablename].identify_column(event.x)
+		row = tablesdic[tablename].identify_row(event.y)
+		cn = int(str(column).replace('#',''))
+		if cn==0:
+			return
+		print(cn)
+		rn = int(str(row).replace('I',''))
+		print(rn)
+		entryedit = Entry(dataframe)
+		entryedit.place(x=(cn-1)*200,y=rn*20)
+		def saveedit():
+			tablesdic[tablename].set(item2,column=column,value=entryedit.get())
+			values=list(tuple(item_text))
+			values[cn-1]=entryedit.get()
+			entryedit.destroy()
+			okb.destroy()
+			print(values)
+			if tablename=='ip_pri':
+				update_ip_pri(values[0],values[1],values[2],values[3],values[4],values[5])
+			if tablename=='file_type':
+				update_file_type(values[0],int(values[1]),int(values[2]))
+			if tablename=='check_sourceip':
+				update_SOURCEIP(int(values[0]),values[1])
+			if tablename=='check_targetip':
+				update_TARGETIP(int(values[0]),values[1])
+
+		okb = ttk.Button(dataframe,text='set',command=saveedit)
+		okb.place(x=120+(cn-1)*200,y=rn*20)
+
+
+	def __showtable(event):
+		#x=tree2.get_children()
+		#for item in x:
+		#	tree2.delete(item)
+		
+		dataframe_init_label.forget()
 		for item in tree1.selection():
 			tablename = tree1.item(item,'text')
 			db_file = os.path.join(os.path.dirname(__file__),'test.db')
@@ -26,57 +65,29 @@ def main():
 			cursor.close()
 			conn.commit()
 			conn.close()
+
+			for key in tablesdic:
+					tablesdic[key].forget()
 			
-			tree2["columns"] = col_name_list
-			for col in col_name_list:
-				tree2.column(col,width=100,anchor='center')
-				tree2.heading(col,text=col)
-			for data in values:
-				tree2.insert('','end',text='-',values=data)
-			adddata_button.pack(side=BOTTOM)
-			tree2.pack()
-
-	def set_value(event):
-		print("set value success")
-		for item2 in tree2.selection():
-			item_text = tree2.item(item2, "values")
-			print(item_text)
-		column = tree2.identify_column(event.x)
-		row = tree2.identify_row(event.y)
-		cn = int(str(column).replace('#',''))
-		if cn==0:
-			return
-		print(cn)
-		rn = int(str(row).replace('I',''))
-		print(rn)
-		entryedit = Entry(dataframe)
-		entryedit.place(x=(cn-1)*200,y=rn*20)
-		def saveedit():
-			tree2.set(item2,column=column,value=entryedit.get())
-			values=list(tuple(item_text))
-			values[cn-1]=entryedit.get()
-			entryedit.destroy()
-			okb.destroy()
-			print(values)
-			for item1 in tree1.selection():
-				tablename = tree1.item(item1,'text')
-			if tablename=='ip_pri':
-				update_ip_pri(values[0],values[1],values[2],values[3],values[4],values[5])
-			if tablename=='file_type':
-				update_file_type(values[0],int(values[1]),int(values[2]))
-			if tablename=='check_sourceip':
-				update_SOURCEIP(int(values[0]),values[1])
-			if tablename=='check_targetip':
-				update_TARGETIP(int(values[0]),values[1])
-
-		okb = ttk.Button(dataframe,text='set',command=saveedit)
-		okb.place(x=120+(cn-1)*200,y=rn*20)
+			if tablesdic.get(tablename)==None:
+				tree=ttk.Treeview(dataframe,show='headings')
+				tablesdic[tablename]=tree
+				tree["columns"] = col_name_list
+				for col in col_name_list:
+					tree.column(col,width=200,anchor='center')
+					tree.heading(col,text=col)
+				for data in values:
+					tree.insert('','end',tags='edit',values=data)
+				tree.tag_bind('edit','<Double-1>',set_value)
+				tree.pack()
+			else:
+				tablesdic[tablename].pack()
 
 	def delvalue(event):
 		time.sleep(1)
-		for item2 in tree2.selection():
+		for item2 in tablesdic[tablename].selection():
 			print('000')
-			item_text=tree2.item(item2,"values")
+			item_text=tablesdic[tablename].item(item2,"values")
 			print(item_text)
 		for item1 in tree1.selection():
 			tablename = tree1.item(item1,'text')
@@ -92,18 +103,18 @@ def main():
 		for item in tree1.selection():
 			tablename = tree1.item(item,'text')
 		if tablename=='ip_pri':
-			tree2.insert('','end',values=['0.0.0.0',0,0,0,0,0])
+			tablesdic[tablename].insert('','end',values=['0.0.0.0',0,0,0,0,0])
 			add_ip_pri('0.0.0.0',0,0,0,0,0)
 		if tablename=='file_type':
-			tree2.insert('','end',values=['zero',0,0])
+			tablesdic[tablename].insert('','end',values=['zero',0,0])
 			add_file_type('zero',0,0)
 		if tablename=='check_sourceip':
-			tree2.insert('','end',values=['-1','0'])
+			tablesdic[tablename].insert('','end',values=['-1','0'])
 			add_SOURCEIP('0')
 		if tablename=='check_targetip':
-			tree2.insert('','end',values=['-1','0'])
+			tablesdic[tablename].insert('','end',values=['-1','0'])
 			add_TARGETIP('0')
-		tree2.update()
+		tablesdic[tablename].update()
 
 	def lstables():
 		db_file = os.path.join(os.path.dirname(__file__),'test.db')
@@ -159,10 +170,15 @@ def main():
 	tree1.tag_bind('showtable','<<TreeviewSelect>>',__showtable)
 	tree1.pack(side=LEFT)
 	dataframe = Frame(dbframe)
-	tree2= ttk.Treeview(dataframe,show='headings')
-	tree2.bind('<Double-1>',set_value)
-	tree2.pack()
+	tablesdic={}
+	#tree2= ttk.Treeview(dataframe,show='headings')
+	#tree2.bind('<Double-1>',set_value)
+	#tree2.pack()
+	#adddata_button = ttk.Button(dataframe,text='add data',command=adddata)
+	dataframe_init_label=ttk.Label(dataframe,text='Empty Table')
+	dataframe_init_label.pack()
 	adddata_button = ttk.Button(dataframe,text='add data',command=adddata)
+	adddata_button.pack(side=BOTTOM)
 	dataframe.pack(side=RIGHT)
 		
 
