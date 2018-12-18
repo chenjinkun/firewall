@@ -193,11 +193,10 @@ def filetype_blacklist(pri=None):
 	conn.close()
 	return values[0]
 
-############################  optinons on table file_type    ###############################
+############################  optinons on table file_type    ################################
 
 
-
-###########################  operations  on table ip_check    #####################################
+###########################  operations  on table check_sourceip    ####################################
 def add_SOURCEIP(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
@@ -206,12 +205,12 @@ def add_SOURCEIP(ip):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("insert into ip_check (SOURCEIP) values ('%s');" % ip)
+	cursor.execute("insert into check_sourceip (SOURCEIP) values ('%s');" % ip)
 	cursor.close()
 	conn.commit()
 	conn.close()
 
-def add_TARGETIP(ip):
+def delete_SOURCEIP(ID):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
@@ -219,80 +218,7 @@ def add_TARGETIP(ip):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("insert into ip_check (TARGETIP) values ('%s');" % ip)
-	cursor.close()
-	conn.commit()
-	conn.close()
-
-def delete_SOURCEIP(ip):
-	db_file = os.path.join(os.path.dirname(__file__),'test.db')
-	if os.path.isfile(db_file)==False:
-		print('db does not exists')
-		return
-
-	conn = sqlite3.connect(db_file)
-	cursor = conn.cursor()
-	cursor.execute("delete from ip_check where SOURCEIP=?",(ip,))
-	cursor.close()
-	conn.commit()
-	conn.close()
-
-def delete_TARGETIP(ip):
-	db_file = os.path.join(os.path.dirname(__file__),'test.db')
-	if os.path.isfile(db_file)==False:
-		print('db does not exists')
-		return
-
-	conn = sqlite3.connect(db_file)
-	cursor = conn.cursor()
-	cursor.execute("delete from ip_check where TARGETIP=?",(ip,) )
-	cursor.close()
-	conn.commit()
-	conn.close()
-
-def check_SOURCEIP(ip):
-	db_file = os.path.join(os.path.dirname(__file__),'test.db')
-	if os.path.isfile(db_file)==False:
-		print('db does not exists')
-		return False
-	conn = sqlite3.connect(db_file)
-	cursor = conn.cursor()
-	cursor.execute("select ID from ip_check where SOURCEIP=?",(ip,))
-	values = cursor.fetchall()
-	cursor.close()
-	conn.commit()
-	conn.close()
-	if values==[]:
-		return 0
-	else :
-		return 1
-
-def check_TARGETIP(ip):
-	db_file = os.path.join(os.path.dirname(__file__),'test.db')
-	if os.path.isfile(db_file)==False:
-		print('db does not exists')
-		return False
-	conn = sqlite3.connect(db_file)
-	cursor = conn.cursor()
-	cursor.execute("select ID from ip_check where TARGETIP=?",(ip,))
-	values = cursor.fetchall()
-	cursor.close()
-	conn.commit()
-	conn.close()
-	if values==[]:
-		return 0
-	else :
-		return 1
-
-def update_TARGETIP(ID,ip):
-	db_file = os.path.join(os.path.dirname(__file__),'test.db')
-	if os.path.isfile(db_file)==False:
-		print('db does not exists')
-		return
-
-	conn = sqlite3.connect(db_file)
-	cursor = conn.cursor()
-	cursor.execute("update ip_check set TARGETIP =?  where ID=?",(ip,ID))
+	cursor.execute("delete from check_sourceip where ID=?",(ID,) )
 	cursor.close()
 	conn.commit()
 	conn.close()
@@ -302,14 +228,36 @@ def update_SOURCEIP(ID,ip):
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
 		return
+
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("update ip_check set SOURCEIP =?  where ID=?",(ip,ID))
+	cursor.execute("update check_sourceip set SOURCEIP =?  where ID=?",(ip,ID))
 	cursor.close()
 	conn.commit()
 	conn.close()
 
-def delete_ip_check(ID):
+def check_SOURCEIP(ip):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return False
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("select ID from check_sourceip where SOURCEIP=?",(ip,))
+	values = cursor.fetchall()
+	cursor.close()
+	conn.commit()
+	conn.close()
+	if values==[]:
+		return 0
+	else :
+		return 1
+############################  operations  on table check_sourceip    ###################################
+
+
+###########################  operations  on table check_targetip    ####################################
+def add_TARGETIP(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
@@ -317,10 +265,57 @@ def delete_ip_check(ID):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("delete from ip_check where ID=?",(ID,))
+	cursor.execute("insert into check_targetip (TARGETIP) values ('%s');" % ip)
 	cursor.close()
 	conn.commit()
 	conn.close()
+
+def delete_TARGETIP(ID):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("delete from check_targetip where ID=?",(ID,) )
+	cursor.close()
+	conn.commit()
+	conn.close()
+
+def update_TARGETIP(ID,ip):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("update check_targetip set TARGETIP =?  where ID=?",(ip,ID))
+	cursor.close()
+	conn.commit()
+	conn.close()
+
+def check_TARGETIP(ip):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return False
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("select ID from check_targetip where TARGETIP=?",(ip,))
+	values = cursor.fetchall()
+	cursor.close()
+	conn.commit()
+	conn.close()
+	if values==[]:
+		return 0
+	else :
+		return 1
+############################  operations  on table check_targetip    ###################################
+
+
 
 ############################ operations  on table ip_check    #################################
 
@@ -392,15 +387,15 @@ if __name__=='__main__':
 	add_TARGETIP('192.168.0.2')
 	add_SOURCEIP('192.168.0.3')
 	add_TARGETIP('192.168.0.4')
-	show_table('ip_check')
+	show_table('check_sourceip')
+	show_table('check_targetip')
 	delete_SOURCEIP('192.168.0.1')
 	delete_SOURCEIP('192.168.0.2')
 	delete_TARGETIP('192.168.0.4')
-	show_table('ip_check')
+	show_table('check_sourceip')
 	add_SOURCEIP('192.168.0.5')
 	add_TARGETIP('192.168.0.6')
 	print(check_TARGETIP('192.168.0.6'))
 	print(check_TARGETIP('192.168.0.5'))
 	print(check_SOURCEIP('192.168.0.5'))
 	print(check_SOURCEIP('192.168.0.1'))
-	show_table('ip_check')
