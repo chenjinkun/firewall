@@ -281,14 +281,26 @@ def update_SOURCEIP(ID,ip):
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
 		return
-	print('b')
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
 	cursor.execute("update ip_check set SOURCEIP =?  where ID=?",(ip,ID))
-	print('c')
 	cursor.close()
 	conn.commit()
 	conn.close()
+
+def delete_ip_check(ID):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("delete from ip_check where ID=?",(ID,))
+	cursor.close()
+	conn.commit()
+	conn.close()
+
 ############################ operations  on table ip_check    #################################
 
 def show_table(table_name):
