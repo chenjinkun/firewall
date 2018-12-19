@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import __init__
 from db_policy import filetype_blacklist
 

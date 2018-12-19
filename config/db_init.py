@@ -1,6 +1,3 @@
-#!/usr/bin/dev python3
-# -*- coding: utf-8 -*-
-
 'initiate database'
 
 __author__='xushunye'

@@ -1,6 +1,3 @@
-#!/usr/bin/dev python3
-# -*- coding: utf-8 -*-
-
 'update database'
 
 __author__='xushunye'
@@ -353,49 +350,4 @@ if __name__=='__main__':
 ####test on table ip_pri########
 	db_init.init()
 	add_ip_pri('192.168.1.1',1,1,1,1,200)
-	add_ip_pri('192.168.1.2',0,0,1,1,-100)
-	add_ip_pri('192.168.1.3',-1,0,1,1,200)
-	add_ip_pri('192.168.1.4',0,0,1,2,200)
 	show_table('ip_pri')
-	update_ip_pri('192.168.1.1',0,1,1,1,200)
-	update_ip_pri('192.168.1.5',1,1,1,1,200)
-	update_ip_pri('192.168.1.2',0,0,1,1,200)
-	show_table('ip_pri')
-	print(check_pri('192.168.1.1','download'))
-	print(check_pri('192.168.1.2','file_size'))
-	print(check_pri('192.168.1.6','upload'))
-	delete_ip_pri('192.168.1.6')
-	delete_ip_pri('192.168.1.1')
-	show_table('ip_pri')
-
-##### test on table file_type#############
-	add_file_type('txt',1,1)
-	add_file_type('jpg',1,0)
-	add_file_type('avi',1,2,)
-	show_table('file_type')
-	update_file_type('txt',0,1)
-	update_file_type('mp4',1,1)
-	show_table('file_type')
-	print(check_type('txt','upload'))
-	print(check_type('mp4','download'))
-	delete_file_type('txt')
-	show_table('file_type')
-
-########test on table ip_check ##############
-
-	add_SOURCEIP('192.168.0.1')
-	add_TARGETIP('192.168.0.2')
-	add_SOURCEIP('192.168.0.3')
-	add_TARGETIP('192.168.0.4')
-	show_table('check_sourceip')
-	show_table('check_targetip')
-	delete_SOURCEIP('192.168.0.1')
-	delete_SOURCEIP('192.168.0.2')
-	delete_TARGETIP('192.168.0.4')
-	show_table('check_sourceip')
-	add_SOURCEIP('192.168.0.5')
-	add_TARGETIP('192.168.0.6')
-	print(check_TARGETIP('192.168.0.6'))
-	print(check_TARGETIP('192.168.0.5'))
-	print(check_SOURCEIP('192.168.0.5'))
-	print(check_SOURCEIP('192.168.0.1'))

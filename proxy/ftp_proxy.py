@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import __init__
 import socket
 import select
@@ -72,12 +70,13 @@ class ftp_proxy:
             sock, addr = s.accept()
             print "find client", addr
             if check_SOURCEIP(addr[0]):
-                t = threading.Thread(target=self.proxy_func, args=(sock,addr,))
+                t = threading.Thread(target=self.proxy_func, args=(sock,addr[0],))
                 t.setDaemon(True)
                 t.start()
                 t.join()
 
                 print "fuck stop"
+                break
             else:
                 print("this client is forbidden by the rule")
                 sock.close()

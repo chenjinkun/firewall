@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import test_config
 from ftp_proxy import ftp_proxy
 from db_init import init
