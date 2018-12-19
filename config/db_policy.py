@@ -39,6 +39,7 @@ def update_ip_pri(ip,upload,download,delet,mkdir,file_size):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
+
 	if upload !=0 and upload !=1:
 		print('update failed,please set upload to 1 or 0')
 		return
@@ -66,6 +67,20 @@ def update_ip_pri(ip,upload,download,delet,mkdir,file_size):
 	cursor.close()
 	conn.commit()
 	conn.close()
+
+def update_ip_pri_id(ID,ip):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("update ip_pri set IP =?  where IP=?",(ip,ID))
+	cursor.close()
+	conn.commit()
+	conn.close()
+	
 
 def delete_ip_pri(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
