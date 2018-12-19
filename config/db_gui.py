@@ -16,23 +16,27 @@ def main():
 			print(item_text)
 		column = tablesdic[tablename].identify_column(event.x)
 		row = tablesdic[tablename].identify_row(event.y)
-		cn = int(str(column).replace('#',''))
+		cn = int(str(column).replace('#',''),16)
 		if cn==0:
 			return
 		print(cn)
-		rn = int(str(row).replace('I',''))
+		rn = int(str(row).replace('I',''),16)
 		print(rn)
 		entryedit = Entry(dataframe)
 		entryedit.place(x=(cn-1)*200,y=rn*20)
 		def saveedit():
 			tablesdic[tablename].set(item2,column=column,value=entryedit.get())
 			values=list(tuple(item_text))
+			Delvalue=values[cn-1]
 			values[cn-1]=entryedit.get()
 			entryedit.destroy()
 			okb.destroy()
 			print(values)
 			if tablename=='ip_pri':
-				update_ip_pri(values[0],values[1],values[2],values[3],values[4],values[5])
+				if cn==1:
+					update_ip_pri_id(Delvalue,values[0])
+				else:
+					update_ip_pri(values[0],int(values[1]),int(values[2]),int(values[3]),int(values[4]),int(values[5]))
 			if tablename=='file_type':
 				update_file_type(values[0],int(values[1]),int(values[2]))
 			if tablename=='check_sourceip':
@@ -103,16 +107,16 @@ def main():
 		for item in tree1.selection():
 			tablename = tree1.item(item,'text')
 		if tablename=='ip_pri':
-			tablesdic[tablename].insert('','end',values=['0.0.0.0',0,0,0,0,0])
+			tablesdic[tablename].insert('','end',tags='edit',values=['0.0.0.0',0,0,0,0,0])
 			add_ip_pri('0.0.0.0',0,0,0,0,0)
 		if tablename=='file_type':
-			tablesdic[tablename].insert('','end',values=['zero',0,0])
+			tablesdic[tablename].insert('','end',tags='edit',values=['zero',0,0])
 			add_file_type('zero',0,0)
 		if tablename=='check_sourceip':
-			tablesdic[tablename].insert('','end',values=['-1','0'])
+			tablesdic[tablename].insert('','end',tags='edit',values=['-1','0'])
 			add_SOURCEIP('0')
 		if tablename=='check_targetip':
-			tablesdic[tablename].insert('','end',values=['-1','0'])
+			tablesdic[tablename].insert('','end',tags='edit',values=['-1','0'])
 			add_TARGETIP('0')
 		tablesdic[tablename].update()
 
