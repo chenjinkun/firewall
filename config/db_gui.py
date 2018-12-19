@@ -1,11 +1,17 @@
 #!/usr/bin/python
+import __init__
+
 from db_policy import *
 import Tkinter as tk
 import ttk
 import tkMessageBox
 from Tkinter import *
 import os,sqlite3,time
-def main():
+import threading
+
+from ftp_proxy import ftp_proxy
+
+def firewall_gui():
 	def set_value(event):
 		print("set value success")
 		for item1 in tree1.selection():
@@ -121,7 +127,7 @@ def main():
 		if os.path.isfile(db_file)==False:
 			print('There is no databases')
 			return -1
-		
+
 		conn = sqlite3.connect(db_file)
 		cursor = conn.cursor()
 		cursor.execute("select name from sqlite_master where type='table'")
@@ -134,15 +140,21 @@ def main():
 		else :
 			return values
 
-	
-
 	def importdb():
 		tkMessageBox.showinfo('Information','call import databases success')
 	def addtable():
 		tkMessageBox.showinfo('Information','call add table success')
 
-	
-	
+	firewall = ftp_proxy(8888)
+
+	def start():
+		firewall.run()
+		firewall.t.start()
+
+	def pause():
+		firewall.stop()
+		firewall.t.join()
+
 	top=tk.Tk()
 	top.title('Rules Configuration')
 	top.geometry("1200x800")
@@ -156,11 +168,16 @@ def main():
 	import_databases_button = ttk.Button(menuframe,text="Import databases",command=importdb)
 	import_databases_button.pack(side=LEFT)
 
+	start_button = ttk.Button(menuframe,text="Start Proxy",command=start)
+	start_button.pack(side=LEFT)
+	end_button = ttk.Button(menuframe, text="Pause Proxy",command=pause)
+	end_button.pack(side=LEFT)
+
 	dbframe = Frame(top)
 	dbframe.pack(side=BOTTOM)
-	
+
 	tables = lstables()
-	tree1 = ttk.Treeview(dbframe)	
+	tree1 = ttk.Treeview(dbframe)
 	dbname = tree1.insert('',0,'root',text='test',values=('0'))
 	index=0
 	for table in tables:
@@ -180,13 +197,12 @@ def main():
 	adddata_button = ttk.Button(dataframe,text='add data',command=adddata)
 	adddata_button.pack(side=BOTTOM)
 	dataframe.pack(side=RIGHT)
-		
 
-	
-	
-	
+
+
+
+
 	top.mainloop()
 
 if __name__ == '__main__':
-	main()
-	
+	firewall_gui()
