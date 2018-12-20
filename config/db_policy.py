@@ -77,7 +77,7 @@ def update_ip_pri_id(ID,ip):
 	cursor.close()
 	conn.commit()
 	conn.close()
-	
+
 
 def delete_ip_pri(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
@@ -203,7 +203,7 @@ def filetype_blacklist(pri=None):
 	cursor.close()
 	conn.commit()
 	conn.close()
-	return values[0]
+	return values
 
 ############################  optinons on table file_type    ################################
 

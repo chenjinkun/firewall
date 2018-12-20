@@ -12,10 +12,12 @@ def control(ip, msg):
     #check if this file_type can be uploaded
     if msg.find('STOR'.encode('utf-8')) != -1:
         blacklist_type = filetype_blacklist('upload')
-        for black_type in blacklist_type:
-            if msg.find(black_type.encode('utf-8')) != -1:
-                print "type {} can not be uploaded".format(black_type)
-                return False
+
+        if blacklist_type != []:
+            for black_type in blacklist_type[0]:
+                if msg.find(black_type.encode('utf-8')) != -1:
+                    print "type {} can not be uploaded".format(black_type)
+                    return False
 
         #check if this ip can upload files
         if not check_pri(str(ip), 'upload'):
@@ -25,10 +27,12 @@ def control(ip, msg):
     #check if this file_type can be downloaded
     if msg.find('RETR'.encode('utf-8')) != -1:
         blacklist_type = filetype_blacklist('download')
-        for black_type in blacklist_type:
-            if msg.find(black_type.encode('utf-8')) != -1:
-                print "type {} can not be downloaded".format(black_type)
-                return False
+
+        if blacklist_type != []:
+            for black_type in blacklist_type:
+                if msg.find(black_type.encode('utf-8')) != -1:
+                    print "type {} can not be downloaded".format(black_type)
+                    return False
 
         #check if this ip can download files
         if not check_pri(str(ip), 'download'):
