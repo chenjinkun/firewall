@@ -107,6 +107,23 @@ def check_pri(ip,pri):
 		return -1
 	else :
 		return values[0][ip_pri_index[pri]]
+
+def exists_ip(ip):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+	cursor.execute("select * from ip_pri where IP=?",(ip,))
+	values = cursor.fetchall()
+	cursor.close()
+	conn.commit()
+	conn.close()
+	if values==[]:
+		return 0
+	else :
+		return 1
 ###########################   operations  on table ip_pri      #####################################
 
 
