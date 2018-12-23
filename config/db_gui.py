@@ -47,6 +47,11 @@ def firewall_gui():
 				update_file_type(values[0],int(values[1]),int(values[2]))
 			if tablename=='check_sourceip':
 				update_SOURCEIP(int(values[0]),values[1])
+				if not exists_ip(values[1]):
+					print("not exist")
+					add_ip_pri(values[1])
+					if 'ip_pri' in tablesdic:
+						del tablesdic['ip_pri']
 			if tablename=='check_targetip':
 				update_TARGETIP(int(values[0]),values[1])
 
