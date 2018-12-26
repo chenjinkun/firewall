@@ -65,6 +65,7 @@ def firewall_gui():
 		#	tree2.delete(item)
 		
 		dataframe_init_label.forget()
+		adddata_button.pack(anchor='center',side=BOTTOM)
 		for item in tree1.selection():
 			tablename = tree1.item(item,'text')
 			db_file = os.path.join(os.path.dirname(__file__),'test.db')
@@ -81,6 +82,12 @@ def firewall_gui():
 			conn.commit()
 			conn.close()
 
+			#i=6
+			#n=len(col_name_list)
+			#while (i-n)>0:
+			#	col_name_list.append(i)
+			#	i=i-1
+
 			for key in tablesdic:
 					tablesdic[key].forget()
 			
@@ -90,13 +97,16 @@ def firewall_gui():
 				tree["columns"] = col_name_list
 				for col in col_name_list:
 					tree.column(col,width=200,anchor='center')
+					#if col<7:
+					#	tree.heading(col,text='')
+					#else:
 					tree.heading(col,text=col)
 				for data in values:
 					tree.insert('','end',tags='edit',values=data)
 				tree.tag_bind('edit','<Double-1>',set_value)
-				tree.pack()
+				tree.pack(fill=Y,expand=YES,side=LEFT,anchor='w')
 			else:
-				tablesdic[tablename].pack()
+				tablesdic[tablename].pack(side=LEFT,expand=YES,fill=Y,anchor='w')
 
 	def delvalue(event):
 		time.sleep(1)
@@ -166,8 +176,8 @@ def firewall_gui():
 
 	top=tk.Tk()
 	top.title('Rules Configuration')
-	top.geometry("1200x800")
-	top.resizable(width=True, height=True)
+	top.geometry("1400x800")
+	top.resizable(width=False, height=True)
 
 	menuframe = Frame(top)
 	menuframe.pack(side=TOP)
@@ -182,8 +192,10 @@ def firewall_gui():
 	end_button = ttk.Button(menuframe, text="Pause Proxy",command=pause)
 	end_button.pack(side=LEFT)
 
-	dbframe = Frame(top)
+	dbframe = Frame(top,width=1400,height=400)
 	dbframe.pack(side=BOTTOM)
+	dbframe.pack_propagate(0)
+
 
 	tables = lstables()
 	tree1 = ttk.Treeview(dbframe)
@@ -194,18 +206,20 @@ def firewall_gui():
 			tree1.insert(dbname,index,text=table,tags='showtable',values=('0'))
 			index = index+1
 	tree1.tag_bind('showtable','<<TreeviewSelect>>',__showtable)
-	tree1.pack(side=LEFT)
-	dataframe = Frame(dbframe)
-	tablesdic={}
-	#tree2= ttk.Treeview(dataframe,show='headings')
-	#tree2.bind('<Double-1>',set_value)
-	#tree2.pack()
-	#adddata_button = ttk.Button(dataframe,text='add data',command=adddata)
-	dataframe_init_label=ttk.Label(dataframe,text='Empty Table')
-	dataframe_init_label.pack()
+	tree1.pack(side=LEFT,anchor='w',fill=Y)
+	dataframe = Frame(dbframe,width=1200,height=400)
+
+	tablesdic={}  #store treeviews 
+
+	dataframe_init_label=ttk.Label(dataframe,text='Please select a table from left database!')
+	dataframe_init_label.pack(expand='YES',fill=Y)
+	
+
 	adddata_button = ttk.Button(dataframe,text='add data',command=adddata)
-	adddata_button.pack(side=BOTTOM)
-	dataframe.pack(side=RIGHT)
+	
+	dataframe.pack(side=LEFT,anchor='w')
+	dataframe.pack_propagate(0)
+
 
 
 
