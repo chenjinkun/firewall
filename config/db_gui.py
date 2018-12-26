@@ -44,7 +44,10 @@ def firewall_gui():
 				else:
 					update_ip_pri(values[0],int(values[1]),int(values[2]),int(values[3]),int(values[4]),int(values[5]))
 			if tablename=='file_type':
-				update_file_type(values[0],int(values[1]),int(values[2]))
+				if cn==1:
+					update_file_type_id(Delvalue,values[0])
+				else:
+					update_file_type(values[0],int(values[1]),int(values[2]))
 			if tablename=='check_sourceip':
 				update_SOURCEIP(int(values[0]),values[1])
 				if not exists_ip(values[1]):
