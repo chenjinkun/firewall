@@ -148,6 +148,23 @@ def add_file_type(file_type,upload=0,download=0):
 		conn.commit()
 		conn.close()
 
+def update_file_type_id(file_type,new_file_type):
+	db_file = os.path.join(os.path.dirname(__file__),'test.db')
+	if os.path.isfile(db_file)==False:
+		print('db does not exists')
+		return
+
+	conn = sqlite3.connect(db_file)
+	cursor = conn.cursor()
+
+	cursor.execute("update file_type set FILE_TYPE =?  where FILE_TYPE=?",(new_file_type,file_type))
+
+	cursor.close()
+	conn.commit()
+	conn.close()
+
+
+
 def update_file_type(file_type,upload,download):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
@@ -252,6 +269,7 @@ def delete_SOURCEIP(ID):
 	conn.commit()
 	conn.close()
 
+
 def update_SOURCEIP(ID,ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
@@ -260,7 +278,16 @@ def update_SOURCEIP(ID,ip):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("update check_sourceip set SOURCEIP =?  where ID=?",(ip,ID))
+
+	if ID==-1:
+		cursor.execute("select max(ID) from check_sourceip")
+		values = cursor.fetchall()
+		ID=values[0]
+		ID=ID[0]
+		cursor.execute("update check_sourceip set SOURCEIP =?  where ID=?",(ip,ID))
+	else:
+		cursor.execute("update check_sourceip set SOURCEIP =?  where ID=?",(ip,ID))
+
 	cursor.close()
 	conn.commit()
 	conn.close()
@@ -320,7 +347,14 @@ def update_TARGETIP(ID,ip):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("update check_targetip set TARGETIP =?  where ID=?",(ip,ID))
+	if ID==-1:
+		cursor.execute("select max(ID) from check_targetip")
+		values = cursor.fetchall()
+		ID=values[0]
+		ID=ID[0]
+		cursor.execute("update check_targetip set TARGETIP =?  where ID=?",(ip,ID))
+	else:
+		cursor.execute("update check_targetip set TARGETIP =?  where ID=?",(ip,ID))
 	cursor.close()
 	conn.commit()
 	conn.close()
