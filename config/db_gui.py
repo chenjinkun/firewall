@@ -28,7 +28,7 @@ def firewall_gui():
 		print(cn)
 		rn = int(str(row).replace('I',''),16)
 		print(rn)
-		entryedit = Entry(dataframe)
+		entryedit = Entry(valueframe)
 		entryedit.place(x=(cn-1)*200,y=rn*20)
 		def saveedit():
 			tablesdic[tablename].set(item2,column=column,value=entryedit.get())
@@ -58,7 +58,7 @@ def firewall_gui():
 			if tablename=='check_targetip':
 				update_TARGETIP(int(values[0]),values[1])
 
-		okb = ttk.Button(dataframe,text='set',command=saveedit)
+		okb = ttk.Button(valueframe,text='set',command=saveedit)
 		okb.place(x=120+(cn-1)*200,y=rn*20)
 
 
@@ -68,7 +68,10 @@ def firewall_gui():
 		#	tree2.delete(item)
 		
 		dataframe_init_label.forget()
-		adddata_button.pack(anchor='center',side=BOTTOM)
+		buttonframe.forget()
+		#adddata_button.forget()
+		#deldata_button.forget()
+
 		for item in tree1.selection():
 			tablename = tree1.item(item,'text')
 			db_file = os.path.join(os.path.dirname(__file__),'test.db')
@@ -93,9 +96,10 @@ def firewall_gui():
 
 			for key in tablesdic:
 					tablesdic[key].forget()
+
 			
 			if tablesdic.get(tablename)==None:
-				tree=ttk.Treeview(dataframe,show='headings')
+				tree=ttk.Treeview(valueframe,show='headings')
 				tablesdic[tablename]=tree
 				tree["columns"] = col_name_list
 				for col in col_name_list:
@@ -107,25 +111,53 @@ def firewall_gui():
 				for data in values:
 					tree.insert('','end',tags='edit',values=data)
 				tree.tag_bind('edit','<Double-1>',set_value)
-				tree.pack(fill=Y,expand=YES,side=LEFT,anchor='w')
+				tree.pack(fill=Y,expand=YES,side=TOP,anchor='w')
+				
 			else:
 				tablesdic[tablename].pack(side=LEFT,expand=YES,fill=Y,anchor='w')
+		
+			buttonframe.pack(side=BOTTOM,anchor='center')
 
-	def delvalue(event):
-		time.sleep(1)
+
+			
+	def delvalue():
+		for item in tree1.selection():
+			tablename = tree1.item(item,'text')
+		
+		flag=0
 		for item2 in tablesdic[tablename].selection():
-			print('000')
 			item_text=tablesdic[tablename].item(item2,"values")
-			print(item_text)
-		for item1 in tree1.selection():
-			tablename = tree1.item(item1,'text')
+			flag=1
+
+		if flag==0:
+			return
+
 		values=list(tuple(item_text))
 		if tablename=='ip_pri':
-			delete_ip_pri(values[1])
+			delete_ip_pri(values[0])
+			tablesdic['ip_pri'].forget()
+			del tablesdic['ip_pri']
+
+			__showtable(None)
 		if tablename=='file_type':
-			delete_fyle_type(values[1])
-		if tablename=='ip_check':
-			delete_ip_check(values[1])
+			delete_file_type(values[0])
+			tablesdic['file_type'].forget()
+			del tablesdic['file_type']
+			
+			__showtable(None)
+		if tablename=='check_sourceip':
+			delete_SOURCEIP(values[1])
+			tablesdic['check_sourceip'].forget()
+			del tablesdic['check_sourceip']
+			__showtable(None)
+
+		if tablename=='check_targetip':
+			delete_TARGETIP(values[1])
+			tablesdic['check_targetip'].forget()
+			del tablesdic['check_targetip']
+			__showtable(None)
+
+		print('Delete values')
 
 	def adddata():
 		for item in tree1.selection():
@@ -215,11 +247,18 @@ def firewall_gui():
 	tablesdic={}  #store treeviews 
 
 	dataframe_init_label=ttk.Label(dataframe,text='Please select a table from left database!')
-	dataframe_init_label.pack(expand='YES',fill=Y)
+	dataframe_init_label.pack(expand='YES',fill=Y,anchor='center')
 	
+	buttonframe=Frame(dataframe)
+	adddata_button = ttk.Button(buttonframe,text='add data',command=adddata)
+	deldata_button = ttk.Button(buttonframe,text='delete data',command=delvalue)
+	adddata_button.pack(anchor='center',side=LEFT)
+	deldata_button.pack(anchor='center',side=LEFT)
 
-	adddata_button = ttk.Button(dataframe,text='add data',command=adddata)
-	
+	valueframe=Frame(dataframe,width=1200,height=380)
+	valueframe.pack(side=TOP)
+	valueframe.pack_propagate(0)
+
 	dataframe.pack(side=LEFT,anchor='w')
 	dataframe.pack_propagate(0)
 

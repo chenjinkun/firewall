@@ -256,7 +256,7 @@ def add_SOURCEIP(ip):
 	conn.commit()
 	conn.close()
 
-def delete_SOURCEIP(ID):
+def delete_SOURCEIP(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
@@ -264,7 +264,7 @@ def delete_SOURCEIP(ID):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("delete from check_sourceip where ID=?",(ID,) )
+	cursor.execute("delete from check_sourceip where SOURCEIP=?",(ip,) )
 	cursor.close()
 	conn.commit()
 	conn.close()
@@ -326,7 +326,7 @@ def add_TARGETIP(ip):
 	conn.commit()
 	conn.close()
 
-def delete_TARGETIP(ID):
+def delete_TARGETIP(ip):
 	db_file = os.path.join(os.path.dirname(__file__),'test.db')
 	if os.path.isfile(db_file)==False:
 		print('db does not exists')
@@ -334,7 +334,7 @@ def delete_TARGETIP(ID):
 
 	conn = sqlite3.connect(db_file)
 	cursor = conn.cursor()
-	cursor.execute("delete from check_targetip where ID=?",(ID,) )
+	cursor.execute("delete from check_targetip where TARGETIP=?",(ip,) )
 	cursor.close()
 	conn.commit()
 	conn.close()
