@@ -1,0 +1,1 @@
+rm ../config/test.db

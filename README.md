@@ -1,13 +1,15 @@
 # 透明代理防火墙项目firewall
 
-### 版本号：v0.0.0    更新时间：2018.10.26
+### 版本号：v1.0.0    更新时间：2018.12.19
+
+#### 更新记录
+完成用户界面的完善，以及界面和防火墙功能的集成
 
 #### 开发环境
 
-python 3.6
+python 2.7
 
 sqlite3
-
 
 
 #### 开发注意事项
@@ -25,17 +27,27 @@ sqlite3
 
 主要实现ftp协议的代理功能（包括主动模式和被动模式）。模块中包含的代码及其功能分别为：
 
-+ 
++ ftp_proxy.py包括ftp代理功能的初步实现，调用start_proxy(lsport)函数可启动代理功能，其中lsport是代理所监听的端口号。 checkclient、checkserver、checkuser、control等函数均为后面的防火墙功能所需要的接口，通过这些接口返回的结果以确定是否进行控制转发。
 
 ##### config模块
 
 主要实现防火墙规则的配置，防火墙规则的数据库存储，以及用户界面设计。模块中包含的代码及其功能分别为：
+数据库表创建模块
+数据库表操作模块：
+1.ip_pri表相关操作: 
+	def add_ip_pri()  def update_ip_pri()  def delete_ip_pri()  
+	def check_pri(ip, pri)  pri 可以是'upload' ,'download','delet','mkdir','file_size', 函数正常返回0或1.
+2.file_type表相关操作： 
+	def add_file_type(),def update_file_type(),def delete_file_type(),
+	def check_type(file_type,pri) file_type 可以是 'jpg','txt','avi',pri可以是 upload,download. 函数正常返回0或1.
+3.ip_check表相关操作： 
+	def add_sourceip() def add_targetip() def delete_sourceip() def delete_targetip() 
+	def check_sourceip(ip) def check_targetip(ip) 函数正常返回0或1.
 
-+ 
++
 
 ##### control模块
 
 主要实现对防火墙规则的解析以及对接收到的ftp协议数据的解析。模块中包含的代码及其功能分别为：
 
-- 
-
+-
