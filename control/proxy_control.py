@@ -29,7 +29,7 @@ def control(ip, msg):
         blacklist_type = filetype_blacklist('download')
 
         if blacklist_type != []:
-            for black_type in blacklist_type:
+            for black_type in blacklist_type[0]:
                 if msg.find(black_type.encode('utf-8')) != -1:
                     print "type {} can not be downloaded".format(black_type)
                     return False
