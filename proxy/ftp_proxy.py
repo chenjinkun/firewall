@@ -75,14 +75,11 @@ class ftp_proxy:
                 t.start()
                 t.join()
 
-                print "fuck stop"
                 break
             else:
                 print("this client is forbidden by the rule")
                 sock.close()
                 continue
-
-        print "stop this test"
 
     def run(self):
         self.running = 1

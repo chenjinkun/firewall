@@ -39,10 +39,6 @@ def control(ip, msg):
             print "ip {} cannot download files".format(str(ip))
             return False
 
-    #todo: add it in db_policy
-    if msg.find('CWD') != -1:
-        pass
-
     #check if this ip can make directory
     if msg.find('MKD'.encode('utf-8')) != -1:
         if not check_pri(str(ip), 'mkdir'):
