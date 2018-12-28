@@ -11,4 +11,5 @@ sqlite3
 
 #### 运行方法
 cd test
+
 python ftp_firewall.py
